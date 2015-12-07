@@ -266,9 +266,14 @@ public class BTNavigationDropdownMenu: UIView {
     
     override public func layoutSubviews() {
         self.menuTitle.sizeToFit()
-        self.menuTitle.center = CGPointMake(self.frame.size.width/2, self.frame.size.height/2)
         self.menuArrow.sizeToFit()
-        self.menuArrow.center = CGPointMake(CGRectGetMaxX(self.menuTitle.frame) + self.configuration.arrowPadding, self.frame.size.height/2)
+        
+        let totalWidth = self.menuTitle.frame.size.width + self.menuArrow.frame.size.width
+        self.menuTitle.frame.origin.x = ceil((self.frame.size.width - totalWidth) / 2.0)
+        self.menuTitle.frame.origin.y = ceil((self.frame.size.height - self.menuTitle.frame.size.height) / 2.0)
+        
+        self.menuArrow.frame.origin.x = ceil(self.menuTitle.frame.origin.x + self.menuTitle.frame.size.width + self.configuration.arrowPadding)
+        self.menuArrow.frame.origin.y = ceil((self.frame.size.height - self.menuArrow.frame.size.height) / 2.0)
     }
     
     func setupDefaultConfiguration() {
@@ -402,7 +407,7 @@ class BTConfiguration {
         self.cellBackgroundColor = UIColor.whiteColor()
         self.cellSeparatorColor = UIColor.darkGrayColor()
         self.cellTextLabelColor = UIColor.darkGrayColor()
-        self.cellTextLabelFont = UIFont(name: "HelveticaNeue-Bold", size: 17)
+        self.cellTextLabelFont = UIFont.systemFontOfSize(17.0)
         self.cellSelectionColor = UIColor.lightGrayColor()
         self.checkMarkImage = UIImage(contentsOfFile: checkMarkImagePath!)
         self.animationDuration = 0.5
